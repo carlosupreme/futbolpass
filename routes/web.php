@@ -14,4 +14,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/qr-test', function () {
+        return view('qr-test');
+    })->name('qr-test');
 });
