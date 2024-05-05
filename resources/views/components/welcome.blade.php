@@ -22,6 +22,8 @@
         </div>
         <p id="qr-error"></p>
     </div>
+
+    <a href="{{ route('qr-test') }}" class="bg-slate-300 rounded-lg p-4" @click.prevent="$root.submit();">Test QR camera</a>
 </div>
 
 <script type="module">

@@ -19,6 +19,6 @@ class QrCamera extends Component {
     #[On('qr-decoded')]
     public function addToList($decoded) {
         error_log("Adding player with email [" . $decoded .
-        "] to attendance list of math with id = " . $this->partidoId);
+        "] to attendance list of math with id = " . $this->partidoId); 
     }
 }
