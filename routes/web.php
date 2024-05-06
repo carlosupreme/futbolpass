@@ -18,4 +18,6 @@ Route::middleware([
     Route::get('/qr-test', function () {
         return view('qr-test');
     })->name('qr-test');
+
+    Route::get('/ligas', static fn() => view('league.index'))->name('league.index');
 });

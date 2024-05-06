@@ -1,3 +1,3 @@
 <x-app-layout>
-     <x-welcome />
+    @livewire('league.index')
 </x-app-layout>
