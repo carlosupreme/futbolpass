@@ -12,16 +12,16 @@
             <input type="search"
                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                    id="search"
-                   placeholder="Buscar liga..."
+                   placeholder="Buscar temporada..."
                    wire:model.live="search"
                    required/>
         </div>
         @livewire('league.create')
     </div>
 
-    @if(count($leagues) > 0)
+    @if(count($seasons) > 0)
         <div class="flex gap-4 flex-wrap">
-            @foreach($leagues as $league)
+            @foreach($seasons as $league)
                 <div wire:key="{{$league->id}}"
                      class="max-w-sm min-w-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="{{route('league.show', ['id' => $league->id])}}">
@@ -54,10 +54,9 @@
         </div>
     @else
         <div class="flex items-center justify-center h-96">
-            <p class="text-3xl text-gray-500">No hay ligas registradas</p>
+            <p class="text-3xl text-gray-500">No hay temporadas en esta liga</p>
         </div>
     @endif
-
 
 
     @livewire('helpers.delete-modal', [

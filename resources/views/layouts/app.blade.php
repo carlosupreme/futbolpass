@@ -188,7 +188,7 @@
 </aside>
 
 <main class="sm:ml-64 mt-14">
-    <div class="p-4 w-full min-h-screen">
+    <div class="p-4 w-full">
         {{ $slot }}
     </div>
 </main>

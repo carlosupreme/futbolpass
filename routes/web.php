@@ -20,4 +20,6 @@ Route::middleware([
     })->name('qr-test');
 
     Route::get('/ligas', static fn() => view('league.index'))->name('league.index');
+
+    Route::get('/ligas/{id}', static fn($id) => view('league.show', ['league' => \App\Models\League::findOrFail($id)]))->name('league.show');
 });
