@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Helpers;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class DeleteModal extends Component
@@ -14,13 +15,12 @@ class DeleteModal extends Component
     public $content;
     public $actionName;
 
-    protected $listeners = ['selectItem', 'actionCompleted'];
-
     public function mount()
     {
         $this->open = false;
     }
 
+    #[On('selectItem')]
     public function selectItem($identifier)
     {
         $this->identifier = $identifier;
@@ -32,6 +32,7 @@ class DeleteModal extends Component
         $this->dispatch($this->action, $this->identifier);
     }
 
+    #[On('actionCompleted')]
     public function actionCompleted()
     {
         $this->open = false;

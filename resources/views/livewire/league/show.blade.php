@@ -1,5 +1,6 @@
 <div>
-    <div class="flex items-center max-w-3xl mx-auto mb-5">
+    <div class="flex items-center max-w-4xl gap-2 mx-auto mb-5">
+        <h1 class="text-2xl min-w-fit font-bold text-center">{{$league->name}}</h1>
         <label for="voice-search" class="sr-only">Search</label>
         <div class="relative w-full">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -16,32 +17,31 @@
                    wire:model.live="search"
                    required/>
         </div>
-        @livewire('league.create')
+        @livewire('season.create', ['league_id' => $league->id])
     </div>
 
     @if(count($seasons) > 0)
         <div class="flex gap-4 flex-wrap">
-            @foreach($seasons as $league)
-                <div wire:key="{{$league->id}}"
-                     class="max-w-sm min-w-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <a href="{{route('league.show', ['id' => $league->id])}}">
-                        <img class="rounded-t-lg w-96 h-96 object-cover"
-                             src="{{$league->logo ?: Auth::user()->profile_photo_url}}" alt=""/>
-                    </a>
+            @foreach($seasons as $season)
+                <div wire:key="{{$season->id}}"
+                     class="max-w-sm min-w-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                >
                     <div class="p-5">
-                        <a href="{{route('league.show', ['id' => $league->id])}}">
-                            <h5 class="hover:underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$league->name}}</h5>
+                        <a href="{{route('season.show', ['id' => $season->id])}}">
+                            <h5 class="hover:underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$season->name}}</h5>
                         </a>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Esta liga cuenta
-                            con {{count($league->seasons)}} temporadas</p>
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Esta temporada cuenta
+                            con {{count($season->teams)}} equipos</p>
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Esta temporada cuenta
+                            con 0 partidos</p>
 
                         <div class="flex items-center justify-between ">
-                            <a href="#"
+                            <a href="{{route('season.show', ['id' => $season->id])}}"
                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Ver temporadas
+                                Ver detalles
                             </a>
 
-                            <button wire:click="confirmDelete({{$league->id}})"
+                            <button wire:click="confirmDelete({{$season->id}})"
                                     class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                                 <x-fas-trash class="w-4 h-4 mr-1"/>
                                 <span>Eliminar</span>
@@ -58,12 +58,11 @@
         </div>
     @endif
 
-
     @livewire('helpers.delete-modal', [
-    'modalId' => 'deleteLeague',
-    'action' => 'deleteLeague',
+    'modalId' => 'deleteSeason',
+    'action' => 'deleteSeason',
     'actionName' => 'Eliminar',
-    'title' => 'Eliminar Liga',
+    'title' => 'Eliminar Temporada',
     'content' => '¿Está seguro de que desea eliminar esta Liga? <b>Esta acción es irreversible</b>',
     ])
 </div>

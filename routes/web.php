@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\League;
+use App\Models\Season;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,5 +23,11 @@ Route::middleware([
 
     Route::get('/ligas', static fn() => view('league.index'))->name('league.index');
 
-    Route::get('/ligas/{id}', static fn($id) => view('league.show', ['league' => \App\Models\League::findOrFail($id)]))->name('league.show');
+    Route::get('/ligas/{id}', static fn($id) => view('league.show', [
+        'league' => League::findOrFail($id)
+    ]))->name('league.show');
+
+    Route::get('/temporada/{id}', static fn($id) => view('season.show', [
+        'season' => Season::with('league','teams')->findOrFail($id)
+    ]))->name('season.show');
 });

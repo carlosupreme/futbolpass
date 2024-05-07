@@ -7,10 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Team extends Model
 {
 
-    protected $fillable = ['name', 'season_id'];
+    protected $fillable = ['name', 'season_id', 'logo'];
 
     public function season()
     {
         return $this->belongsTo(Season::class);
+    }
+
+    public function players()
+    {
+        return $this->hasMany(Player::class);
     }
 }

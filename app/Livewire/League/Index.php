@@ -15,7 +15,6 @@ class Index extends Component
     public function render()
     {
         $leagues = League::where('name', 'like', '%' . $this->search . '%')->orderBy('id', 'desc')->get();
-        debug($leagues);
 
         return view('livewire.league.index', [
             'leagues' => $leagues

@@ -2,11 +2,11 @@
     <button type="button"
             wire:click="$set('open', true)"
             class="py-2.5 px-3 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        Agregar Liga
+        Agregar equipo
     </button>
     <x-dialog-modal wire:model="open">
         <x-slot name="title">
-            <h2><strong>Agregar Liga</strong></h2>
+            <h2><strong>Agregar equipo</strong></h2>
         </x-slot>
         <x-slot name="content">
             <div class="flex flex-col gap-4">
@@ -39,7 +39,6 @@
                         <img src="{{$logo->temporaryUrl()}}" alt="Logo" class="w-full h-64 object-contain rounded-lg"/>
                     @endif
                 </div>
-
             </div>
         </x-slot>
         <x-slot name="footer">
