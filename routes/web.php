@@ -17,7 +17,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/qr-test', function () {
+    Route::get('/attendance-list', function () {
         return view('qr-test');
     })->name('qr-test');
 
