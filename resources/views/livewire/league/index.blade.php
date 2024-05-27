@@ -47,8 +47,6 @@
                     </div>
                 @endforeach
             </div>
-
-
         @else
             <h2 class="py-4 text-center text-3xl dark:text-gray text-gray-500">
                 No hay ligas registradas

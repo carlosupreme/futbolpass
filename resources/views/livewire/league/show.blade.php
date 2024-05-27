@@ -20,43 +20,40 @@
         @livewire('season.create', ['league_id' => $league->id])
     </div>
 
-    @if(count($seasons) > 0)
-        <div class="flex gap-4 flex-wrap">
-            @foreach($seasons as $season)
-                <div wire:key="{{$season->id}}"
-                     class="max-w-sm min-w-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-                >
-                    <div class="p-5">
-                        <a href="{{route('season.show', ['id' => $season->id])}}">
-                            <h5 class="hover:underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$season->name}}</h5>
-                        </a>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Esta temporada cuenta
-                            con {{count($season->teams)}} equipos</p>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Esta temporada cuenta
-                            con 0 partidos</p>
-
-                        <div class="flex items-center justify-between ">
-                            <a href="{{route('season.show', ['id' => $season->id])}}"
-                               class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Ver detalles
-                            </a>
-
-                            <button wire:click="confirmDelete({{$season->id}})"
-                                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                                <x-fas-trash class="w-4 h-4 mr-1"/>
-                                <span>Eliminar</span>
-                            </button>
+    <div class="max-w-full mx-auto p-4 flex flex-wrap justify-center">
+        @if(count($seasons) > 0)
+            <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                @foreach($seasons as $season)
+                    <div
+                        class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 min-h-32 flex flex-col">
+                        <div
+                            class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+                            <div class="p-4 flex flex-col justify-between flex-grow">
+                                <h3 class="text-2xl font-semibold mb-2">{{$season->name}}</h3>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$season->teams_count}} equipos</p>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{0 }} partidos</p>
+                                <div class="flex items-center justify-between mt-auto">
+                                    <a href="{{route('season.show', ['id' => $season->id])}}"
+                                       class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        Ver más
+                                    </a>
+                                    <button wire:click="confirmDelete({{$season->id}})"
+                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                        <x-fas-trash class="w-4 h-4 mr-1"/>
+                                        <span>Eliminar</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-                </div>
-            @endforeach
-        </div>
-    @else
-        <div class="flex items-center justify-center h-96">
-            <p class="text-3xl text-gray-500">No hay temporadas en esta liga</p>
-        </div>
-    @endif
+                @endforeach
+            </div>
+        @else
+            <h2 class="py-4 text-center text-3xl dark:text-gray text-gray-500">
+                No hay temporadas registradas
+            </h2>
+        @endif
+    </div>
 
     @livewire('helpers.delete-modal', [
     'modalId' => 'deleteSeason',

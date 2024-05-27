@@ -31,11 +31,12 @@ class Create extends Component
     public function store()
     {
         $this->validate();
-        Team::create([
+        $team = Team::create([
             'season_id' => $this->season_id,
             'name' => $this->name,
-            'logo' => $this->logo ? Storage::url($this->logo->store('teams')) : null,
         ]);
+
+        if ($this->logo) $team->updatePhoto($this->logo);
 
         $this->dispatch('teamCreated');
         $this->reset();
