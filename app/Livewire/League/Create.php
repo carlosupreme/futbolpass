@@ -3,6 +3,7 @@
 namespace App\Livewire\League;
 
 use App\Models\League;
+use App\Utils\Toast;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -30,6 +31,7 @@ class Create extends Component
 
         $this->dispatch('leagueCreated');
         $this->reset();
+        Toast::success($this, 'Nueva liga registrada exitosamente');
     }
 
     public function resetValues()

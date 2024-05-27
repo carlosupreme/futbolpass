@@ -1,13 +1,2 @@
-import "./bootstrap";
+import "../assets/js/bootstrap.js";
 
-import QRCode from "qrcode";
-
-import "flowbite";
-
-import QrScanner from "qr-scanner";
-
-import { Modal } from "flowbite";
-
-window.QRCode = QRCode;
-window.QrScanner = QrScanner;
-window.Modal = Modal;

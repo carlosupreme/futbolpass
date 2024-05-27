@@ -1,0 +1,12 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+@import './tailwind.css';
+
+@import '../../../public/plugins/toast/toast.min.css';
+@import 'ispinner';
+@import 'custom';
+
+
+[x-cloak] {
+    display: none;
+}
