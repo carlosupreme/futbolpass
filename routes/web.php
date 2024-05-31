@@ -30,4 +30,7 @@ Route::middleware([
     Route::get('/temporada/{id}', static fn($id) => view('season.show', [
         'season' => Season::with('league','teams')->findOrFail($id)
     ]))->name('season.show');
+
+    Route::get('/jugadores', static fn() => view('player.index'))->name('player.index');
+    
 });
