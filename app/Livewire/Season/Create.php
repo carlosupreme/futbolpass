@@ -39,7 +39,7 @@ class Create extends Component
         ]);
 
         $this->dispatch('seasonCreated');
-        $this->reset();
+        $this->resetExcept('league_id');
     }
 
     public function resetValues()
