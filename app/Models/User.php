@@ -63,9 +63,5 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    public function player()
-    {
-        $this->hasOne(Player::class);
-    }
+    
 }
