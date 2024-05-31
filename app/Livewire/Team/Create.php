@@ -38,12 +38,12 @@ class Create extends Component
         ]);
 
         $this->dispatch('teamCreated');
-        $this->reset();
+        $this->resetExcept('season_id');
     }
 
     public function resetValues()
     {
-        $this->reset();
+        $this->resetExcept('season_id');
     }
 
     public function render()
