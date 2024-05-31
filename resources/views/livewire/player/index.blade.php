@@ -23,24 +23,24 @@
             @foreach($players as $player)
                 <div wire:key="{{$player->id}}"
                      class="max-w-sm min-w-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <!--<a href="{{route('league.show', ['id' => $league->id])}}">
+                    <a href="{{route('player.show', ['id' => $player->id])}}">
                         <img class="rounded-t-lg w-96 h-96 object-cover"
-                             src="{{$league->logo ?: Auth::user()->profile_photo_url}}" alt=""/>
+                             src="{{$player->photo ?: Auth::user()->profile_photo_url}}" alt=""/>
                     </a>
                     <div class="p-5">
-                        <a href="{{route('league.show', ['id' => $league->id])}}">
-                            <h5 class="hover:underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$league->name}}</h5>
+                        <a href="{{route('player.show', ['id' => $player->id])}}">
+                            <h5 class="hover:underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$player->name}}</h5>
                         </a>
-                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Esta liga cuenta
-                            con {{count($league->seasons)}} temporadas</p>
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Esta jugador pertenece
+                            al equipo "{{$player->team->name}}"</p>
 
                         <div class="flex items-center justify-between ">
-                            <a href="{{route('league.show', ['id' => $league->id])}}"
+                            <a href="{{route('player.show', ['id' => $player->id])}}"
                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Ver temporadas
+                                Ver detalles
                             </a>
 
-                            <button wire:click="confirmDelete({{$league->id}})"
+                            <button wire:click="confirmDelete({{$player->id}})"
                                     class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                                 <x-fas-trash class="w-4 h-4 mr-1"/>
                                 <span>Eliminar</span>
@@ -48,7 +48,6 @@
                         </div>
 
                     </div>
-                    -->
                 </div>
             @endforeach
         </div>
@@ -63,6 +62,6 @@
         'action' => 'deletePlayer',
         'actionName' => 'Eliminar',
         'title' => 'Eliminar Jugador',
-        'content' => '¿Está seguro de que desea eliminar esta Liga? <b>Esta acción es irreversible</b>',
+        'content' => '¿Está seguro de que desea eliminar este jugador? <b>Esta acción es irreversible</b>',
     ])
 </div>

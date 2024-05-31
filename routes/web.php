@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\League;
+use App\Models\Player;
 use App\Models\Season;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +33,9 @@ Route::middleware([
     ]))->name('season.show');
 
     Route::get('/jugadores', static fn() => view('player.index'))->name('player.index');
+
+    Route::get('/jugadores/{id}', static fn($id) => view('player.show', [
+        'player' => Player::findOrFail($id)
+    ]))->name('player.show');
     
 });

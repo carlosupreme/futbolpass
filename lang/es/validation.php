@@ -212,6 +212,7 @@ return [
         'mobile'                   => 'móvil',
         'month'                    => 'mes',
         'name'                     => 'nombre',
+        'jersey_number'            => 'número de jugador',
         'national_code'            => 'código nacional',
         'number'                   => 'número',
         'password'                 => 'contraseña',
