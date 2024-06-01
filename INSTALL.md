@@ -66,7 +66,7 @@ php artisan key:generate
 8. Run the migrations
 
 ```bash
-php artisan migrate
+php artisan migrate --seed
 ```
 
 9. Create a link to the storage folder

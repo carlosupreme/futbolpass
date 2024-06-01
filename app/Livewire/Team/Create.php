@@ -39,12 +39,12 @@ class Create extends Component
         if ($this->logo) $team->updatePhoto($this->logo);
 
         $this->dispatch('teamCreated');
-        $this->reset();
+        $this->resetExcept('season_id');
     }
 
     public function resetValues()
     {
-        $this->reset();
+        $this->resetExcept('season_id');
     }
 
     public function render()

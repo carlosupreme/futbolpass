@@ -7,15 +7,17 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     /**
      * Run the migrations.
+     * 
+     * 
      */
     public function up(): void
     {
         Schema::create('players', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
             $table->string('name');
             $table->integer('jersey_number');
             $table->foreignId('team_id')->constrained();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

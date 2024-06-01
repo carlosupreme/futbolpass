@@ -7,15 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Player extends Model
 {
 
-    protected $fillable = ['name', 'jersey_number', 'team_id'];
+    protected $fillable = ['name', 'jersey_number', 'team_id', 'photo'];
 
     public function team()
     {
         return $this->belongsTo(Team::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
     }
 }
