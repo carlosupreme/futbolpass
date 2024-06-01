@@ -20,9 +20,9 @@
     </div>
 
     <div class="max-w-full mx-auto p-4 flex flex-wrap justify-center">
-        @if(count($leagues) > 0)
+        @if(count($this->leagues) > 0)
             <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                @foreach($leagues as $league)
+                @foreach($this->leagues as $league)
                     <div class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 min-h-96 max-h-64 flex flex-col">
                         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
                             <div class="relative w-full h-48">
@@ -46,6 +46,12 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            <div x-intersect.full="$wire.loadMore()" class="p-4">
+                <div wire:loading wire:target="loadMore"
+                     class="loading-indicator">
+                    Cargando más ligas...
+                </div>
             </div>
         @else
             <h2 class="py-4 text-center text-3xl dark:text-gray text-gray-500">
