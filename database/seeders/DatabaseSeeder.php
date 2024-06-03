@@ -22,5 +22,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
             'password' => Hash::make('password')
         ])->assignRole('admin');
+
+        $this->call(LeagueSeeder::class);
+
+        $this->call(SeasonSeeder::class);
     }
 }
