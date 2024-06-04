@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\AttendanceList;
 use App\Models\Game;
+use App\Utils\Toast;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
@@ -15,6 +16,7 @@ class QrCamera extends Component
     public $partidoId;
 
     public $search;
+    public $previus = null;
 
     public function render()
     {
@@ -37,6 +39,10 @@ class QrCamera extends Component
     #[On('qr-decoded')]
     public function addToList($decoded)
     {
+        if($decoded === $this->previus) return;
+
+        $this->previus = $decoded;
+        Toast::info($this, "Asistencia registrada");
         AttendanceList::where('game_id', $this->partidoId)
             ->where('player_id', $decoded)
             ->update(['is_present' => true]);
