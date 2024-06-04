@@ -14,7 +14,7 @@ class QrCamera extends Component
 {
     public $title = "QR Camera";
     public $partidoId;
-
+    public $list = [];
     public $search;
     public $previus = null;
 
@@ -33,15 +33,23 @@ class QrCamera extends Component
     public function setGame($id)
     {
         $this->partidoId = $id;
+        
         $this->dispatch('selected');
     }
+    
 
     #[On('qr-decoded')]
     public function addToList($decoded)
     {
         if($decoded === $this->previus) return;
-
         $this->previus = $decoded;
+        $list = AttendanceList::where('game_id', $this->partidoId)
+        ->where('is_present', false)
+        ->pluck('player_id')
+        ->toArray();
+
+        if(!in_array($decoded, $list)) return;
+        
         Toast::info($this, "Asistencia registrada");
         AttendanceList::where('game_id', $this->partidoId)
             ->where('player_id', $decoded)
