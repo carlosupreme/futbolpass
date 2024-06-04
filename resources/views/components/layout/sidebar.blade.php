@@ -28,8 +28,7 @@
             class="overflow-y-auto py-4 px-3 h-full bg-white dark:bg-gray-800">
             <ul class="space-y-2">
 
-                <x-layout.sub.sidebar-item label="Panel" icon="fa-solid fa-gauge"
-                    route="{{ route('dashboard') }}" />
+          
 
                 <x-layout.sub.sidebar-item label="Ligas" icon="fa-solid fa-trophy"
                                            route="{{ route('league.index') }}" />
