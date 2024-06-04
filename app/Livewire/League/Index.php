@@ -3,22 +3,38 @@
 namespace App\Livewire\League;
 
 use App\Models\League;
-use Illuminate\Support\Facades\Storage;
+use App\Utils\Toast;
+use Illuminate\Database\Eloquent\Collection;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Index extends Component
 {
     public $search;
+    public int $on_page = 4;
+
+    #[Computed]
+    public function leagues(): Collection
+    {
+        return League::withCount('seasons')
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->latest()
+            ->take($this->on_page)
+            ->get();
+    }
+
+    public function loadMore(): void
+    {
+        $this->on_page += 4;
+    }
 
     #[On('leagueCreated')]
+    #[On('leagueUpdated')]
+    #[On('leagueDeleted')]
     public function render()
     {
-        $leagues = League::where('name', 'like', '%' . $this->search . '%')->orderBy('id', 'desc')->get();
-
-        return view('livewire.league.index', [
-            'leagues' => $leagues
-        ]);
+        return view('livewire.league.index');
     }
 
     public function confirmDelete($id)
@@ -30,12 +46,10 @@ class Index extends Component
     public function deleteLeague($id)
     {
         $league = League::find($id);
-        if ($league->logo) {
-            Storage::delete($league->logo);
-        }
+        if ($league->logo) $league->deletePhoto();
         $league->delete();
         $this->dispatch('actionCompleted');
-
-        return redirect()->route('league.index')->with('flash.banner', 'Liga eliminada correctamente');
+        $this->dispatch('leagueDeleted');
+        Toast::success($this, 'Liga eliminada exitosamente');
     }
 }

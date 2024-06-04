@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Season;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class SeasonSeeder extends Seeder
@@ -14,12 +15,12 @@ class SeasonSeeder extends Seeder
     {
         $seasonNames = ["Sub 21", "Primera División"];
 
-        for ($i = 1; $i <= 3; $i++) 
-            foreach ($seasonNames as $name) 
+        for ($i = 1; $i <= 3; $i++)
+            foreach ($seasonNames as $name)
                 Season::create([
                     'name' => $name,
-                    'start_date' => '2024-03-06 00:00:00',
-                    'end_date' => '2024-03-15 00:00:00',
+                    'start_date' => Carbon::today(),
+                    'end_date' => Carbon::today()->addMonths(6),
                     'league_id' => $i
                 ]);
     }

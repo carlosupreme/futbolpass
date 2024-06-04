@@ -1,14 +1,15 @@
 <?php
 
 use App\Models\League;
-use App\Models\Player;
 use App\Models\Season;
 use App\Models\Team;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/dashboard');
 });
+
+Route::get('/jugadores/{id}', static fn($id) => view('player.show', compact('id')))->name('player.show');
 
 Route::middleware([
     'auth:sanctum',
@@ -19,9 +20,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/attendance-list', function () {
+    Route::get('/tomar-asistencia', function () {
         return view('qr-test');
-    })->name('qr-test');
+    })->name('attendance.scan');
 
     Route::get('/ligas', static fn() => view('league.index'))->name('league.index');
 
@@ -35,13 +36,15 @@ Route::middleware([
 
     //Route::get('/jugadores', static fn() => view('player.index'))->name('player.index');
 
-    Route::get('/jugadores/{id}', static fn($id) => view('player.show', [
-        'player' => Player::findOrFail($id)
-    ]))->name('player.show');
-
+    // Route::get('/jugadores/{id}', static fn($id) => view('player.show', [
+    //     'player' => Player::findOrFail($id)
+    // ]))->name('player.show');
 
     Route::get('/team/{id}', static fn($id) => view('team.show', [
         'team' => Team::findOrFail($id)
     ]))->name('team.show');
     
+    Route::get('/equipo/{id}', static fn($id) => view('team.show', ['id' => $id]))->name('team.show');
+
+    Route::get('/jugadores', static fn() => view('player.index'))->name('player.index');
 });

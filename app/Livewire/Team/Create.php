@@ -3,6 +3,7 @@
 namespace App\Livewire\Team;
 
 use App\Models\Team;
+use App\Utils\Toast;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
@@ -31,14 +32,16 @@ class Create extends Component
     public function store()
     {
         $this->validate();
-        Team::create([
+        $team = Team::create([
             'season_id' => $this->season_id,
             'name' => $this->name,
-            'logo' => $this->logo ? Storage::url($this->logo->store('teams')) : null,
         ]);
 
+        if ($this->logo) $team->updatePhoto($this->logo);
+
         $this->dispatch('teamCreated');
-        $this->resetExcept('season_id');
+        $this->resetValues();
+        Toast::success($this, 'Nuevo equipo registrado exitosamente');
     }
 
     public function resetValues()

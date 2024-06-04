@@ -3,7 +3,7 @@
 namespace App\Livewire\League;
 
 use App\Models\League;
-use Illuminate\Support\Facades\Storage;
+use App\Utils\Toast;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -23,13 +23,15 @@ class Create extends Component
     public function store()
     {
         $this->validate();
-        League::create([
-            'name' => $this->name,
-            'logo' => $this->logo ? Storage::url($this->logo->store('leagues')): null,
-        ]);
+        $league = League::create(['name' => $this->name]);
+
+        if ($this->logo) {
+            $league->updatePhoto($this->logo);
+        }
 
         $this->dispatch('leagueCreated');
         $this->reset();
+        Toast::success($this, 'Nueva liga registrada exitosamente');
     }
 
     public function resetValues()

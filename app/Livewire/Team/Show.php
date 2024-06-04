@@ -4,17 +4,36 @@ namespace App\Livewire\Team;
 
 use App\Models\Player;
 use App\Models\Team;
+use App\Utils\Toast;
+use Illuminate\Database\Eloquent\Collection;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Show extends Component
 {
+    public $search;
+    public int $on_page = 4;
     public Team $team;
-    public $players = [];
 
-    public function mount(Team $team)
+    public function mount($teamId)
     {
-        $this->team = $team;
+        $this->team = Team::find($teamId);
+    }
+
+    #[Computed]
+    public function players(): Collection
+    {
+        return Player::where('team_id', $this->team->id)
+            ->where('name', 'like', '%' . $this->search . '%')
+            ->latest()
+            ->take($this->on_page)
+            ->get();
+    }
+
+    public function loadMore(): void
+    {
+        $this->on_page += 4;
     }
 
     public function confirmDelete($id)
@@ -23,17 +42,21 @@ class Show extends Component
     }
 
     #[On('deletePlayer')]
-    public function deletePlayer($id) {
+    public function deletePlayer($id)
+    {
         $player = Player::find($id);
+        if ($player->photo) $player->deletePhoto();
         $player->delete();
-
         $this->dispatch('actionCompleted');
+        $this->dispatch('playerDeleted');
+        Toast::success($this, 'Jugador eliminado exitosamente');
     }
 
-    #[On("playerCreated")]
+    #[On('playerCreated')]
+    #[On('playerUpdated')]
+    #[On('playerDeleted')]
     public function render()
     {
-        $this->players = $this->team->players()->get();
         return view('livewire.team.show');
     }
 }

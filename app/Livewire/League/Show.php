@@ -4,6 +4,7 @@ namespace App\Livewire\League;
 
 use App\Models\League;
 use App\Models\Season;
+use App\Utils\Toast;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -26,16 +27,19 @@ class Show extends Component
     #[On('deleteSeason')]
     public function deleteSeason($id)
     {
-        $season = Season::find($id);
-        $season->delete();
+        Season::destroy($id);
 
         $this->dispatch('actionCompleted');
+        $this->dispatch('seasonDeleted');
+        Toast::success($this, 'Temporada eliminada exitosamente');
     }
 
     #[On('seasonCreated')]
+    #[On('seasonUpdated')]
+    #[On('seasonDeleted')]
     public function render()
     {
-        $this->seasons = $this->league->seasons()->get();
+        $this->seasons = $this->league->seasons()->withCount('teams', 'games')->get();
         return view('livewire.league.show');
     }
 }

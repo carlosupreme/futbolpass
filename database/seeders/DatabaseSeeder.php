@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Player;
 use App\Models\User;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -31,8 +32,7 @@ class DatabaseSeeder extends Seeder
 
         // Creates 8 well-know euro teams in all seasons
         $this->call(TeamSeeder::class);
-
         // Creates one game between two random teams for each season
-        $this->call(GameSeeder::class);
+        // $this->call(GameSeeder::class);
     }
 }

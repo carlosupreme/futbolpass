@@ -1,0 +1,11 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import 'ispinner';
+@import 'custom';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
