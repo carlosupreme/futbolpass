@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("season_id")->constrained();
+            $table->foreignId("home_team_id")->constrained("teams");
+            $table->foreignId("away_team_id")->constrained("teams");
+            $table->date("date");
+            $table->string("referee_name");
             $table->timestamps();
         });
     }

@@ -19,33 +19,6 @@
             <dt class="mb-1 text-blue-500 md:text-lg dark:text-blue-400">Nombre completo</dt>
             <dd class="text-lg font-semibold">{{ Auth::user()->name }}</dd>
         </div>
-        <div class="flex flex-col pt-3">
-            <dt class="mb-1 text-blue-500 md:text-lg dark:text-blue-400">Código QR</dt>
-            <dd class="text-lg font-semibold"></dd>
-        </div>
-        </dl>
-
-        <div>
-            
-            <div class="border shadow w-fit m-auto">
-                <img id="qr-img" alt="{{Auth::user()->name}}"/>
-            </div>
-            <p id="qr-error"></p>
-        </div>
+        
     </div>
-
-    <!--<p class="m-5"><a href="{{ route('qr-test') }}" class="bg-slate-300 rounded-lg p-4">Test QR
-        camera</a></p> -->
 </div>
-
-<script type="module">
-    const userEmail = {{Js::from(Auth::user()->email) }};
-    let qrDiv = document.getElementById("qr-img");
-
-    QRCode.toDataURL(userEmail, {version: 3, width: 300}).then((url) => {
-        qrDiv.src = url;
-    }).catch(err => {
-        let p = document.getElementById("qr-error");
-        p.textContent = "No se pudo generar tu código QR";
-    });
-</script>

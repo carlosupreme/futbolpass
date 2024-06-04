@@ -48,6 +48,7 @@ class Team extends Model
         });
     }
 
+
     public function season()
     {
         return $this->belongsTo(Season::class);
@@ -56,5 +57,10 @@ class Team extends Model
     public function players()
     {
         return $this->hasMany(Player::class);
+    }
+
+    public function games()
+    {
+        return $this->belongsToMany(Game::class);
     }
 }
