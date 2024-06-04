@@ -28,35 +28,41 @@
             class="overflow-y-auto py-4 px-3 h-full bg-white dark:bg-gray-800">
             <ul class="space-y-2">
 
-                <x-layout.sub.sidebar-item label="{{ __('Dashboard') }}" icon="fa-solid fa-gauge"
+                <x-layout.sub.sidebar-item label="Panel" icon="fa-solid fa-gauge"
                     route="{{ route('dashboard') }}" />
 
-                <x-layout.sub.sidebar-item label="Ligas" icon="fa-solid fa-gauge"
+                <x-layout.sub.sidebar-item label="Ligas" icon="fa-solid fa-trophy"
                                            route="{{ route('league.index') }}" />
 
-                <x-layout.sub.sidebar-collapse id="a" label="a" icon="fa-solid fa-pager">
-                    <x-layout.sub.sidebar-collapse-item label="{{ __('Settings') }}" route="#" />
-                    <x-layout.sub.sidebar-collapse-item label="{{ __('Kanban') }}" route="#" />
-                    <x-layout.sub.sidebar-collapse-item label="{{ __('Calendar') }}" route="#" />
-                </x-layout.sub.sidebar-collapse>
+                <x-layout.sub.sidebar-item label="Iniciar partido" icon="fa-solid fa-futbol"
+                                           route="{{ route('attendance.scan') }}" />
+
+{{--                <x-layout.sub.sidebar-item label="Buscar credencial" icon="fa-solid fa-user"--}}
+{{--                                           route="{{ route('league.index') }}" />--}}
+
+{{--                <x-layout.sub.sidebar-collapse id="a" label="a" icon="fa-solid fa-pager">--}}
+{{--                    <x-layout.sub.sidebar-collapse-item label="{{ __('Settings') }}" route="#" />--}}
+{{--                    <x-layout.sub.sidebar-collapse-item label="{{ __('Kanban') }}" route="#" />--}}
+{{--                    <x-layout.sub.sidebar-collapse-item label="{{ __('Calendar') }}" route="#" />--}}
+{{--                </x-layout.sub.sidebar-collapse>--}}
 
 
-                <x-layout.sub.sidebar-collapse id="sa" label="{{ __('Sales') }}"
-                    icon="fa-solid fa-pagerfa-solid fa-sack-dollar">
-                    <x-layout.sub.sidebar-collapse-item label="{{ __('Products') }}" route="#" />
-                    <x-layout.sub.sidebar-collapse-item label="{{ __('Billings') }}" route="#" />
-                </x-layout.sub.sidebar-collapse>
+{{--                <x-layout.sub.sidebar-collapse id="sa" label="{{ __('Sales') }}"--}}
+{{--                    icon="fa-solid fa-pagerfa-solid fa-sack-dollar">--}}
+{{--                    <x-layout.sub.sidebar-collapse-item label="{{ __('Products') }}" route="#" />--}}
+{{--                    <x-layout.sub.sidebar-collapse-item label="{{ __('Billings') }}" route="#" />--}}
+{{--                </x-layout.sub.sidebar-collapse>--}}
             </ul>
 
-            <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
+{{--            <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">--}}
 
-                <x-layout.sub.sidebar-item label="{{ __('Docs') }}" icon="fa-regular fa-file-word" route="#" />
+{{--                <x-layout.sub.sidebar-item label="{{ __('Docs') }}" icon="fa-regular fa-file-word" route="#" />--}}
 
-                <x-layout.sub.sidebar-item label="{{ __('Components') }}" icon="fa-solid fa-box" route="#" />
+{{--                <x-layout.sub.sidebar-item label="{{ __('Components') }}" icon="fa-solid fa-box" route="#" />--}}
 
-                <x-layout.sub.sidebar-item label="{{ __('Help') }}" icon="fa-solid fa-circle-question"
-                    route="#" />
-            </ul>
+{{--                <x-layout.sub.sidebar-item label="{{ __('Help') }}" icon="fa-solid fa-circle-question"--}}
+{{--                    route="#" />--}}
+{{--            </ul>--}}
         </div>
     </aside>
 </div>

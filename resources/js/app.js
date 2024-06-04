@@ -44,6 +44,14 @@ window.addEventListener('toast', event => {
 });
 
 function showNotification(type, title, message) {
+
+    const bg = {
+        info: 'blue',
+        success: 'green',
+        warning: 'yellow',
+        error: 'red',
+    }[type];
+
     Toastify({
         text: message,
         duration: 3000,
@@ -51,7 +59,8 @@ function showNotification(type, title, message) {
         position: "right",
         style: {
             borderRadius: "1rem",
-            fontSize: "1.3rem"
+            fontSize: "1.3rem",
+            background: bg,
         }
     }).showToast();
 }

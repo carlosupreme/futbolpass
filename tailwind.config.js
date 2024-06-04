@@ -13,6 +13,9 @@ export default {
 
     theme: {
         extend: {
+            gridTemplateColumns:{
+                'mobile': 'repeat(auto-fill, minmax(5rem, 1fr))',
+            },
             colors: {
                 "primary": {
                     50: "#FEF9F6",

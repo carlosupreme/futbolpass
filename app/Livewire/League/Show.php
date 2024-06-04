@@ -39,7 +39,7 @@ class Show extends Component
     #[On('seasonDeleted')]
     public function render()
     {
-        $this->seasons = $this->league->seasons()->withCount('teams')->get();
+        $this->seasons = $this->league->seasons()->withCount('teams', 'games')->get();
         return view('livewire.league.show');
     }
 }

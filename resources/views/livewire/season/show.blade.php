@@ -111,24 +111,86 @@
         ])
 
     @else
+        @livewire('game.show')
+        <div class="flex items-center max-w-4xl gap-2 mx-auto my-5">
+            <label for="search" class="sr-only">Search</label>
+            <div class="relative w-full">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </div>
+                <input type="search"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       id="search"
+                       placeholder="Buscar partido..."
+                       wire:model.live="search"
+                       required/>
+            </div>
+            @livewire('game.create', ['season_id' => $season->id])
+        </div>
 
+        <div class="max-w-full mx-auto p-4 flex flex-wrap justify-center mb-4">
+            @if(count($games) > 0)
+                <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                    @foreach($games as $game)
+                        <div
+                            class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 min-h-96 max-h-64 flex flex-col">
+                            <div
+                                class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+                                <div class="p-4 flex flex-col justify-between flex-grow">
+                                    <h5
+                                        wire:click="showGame({{$game->id}})"
+                                        class="cursor-pointer text-center hover:underline hover:text-blue-700 mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                        {{$game->name}}
+                                    </h5>
+
+                                    <h4 class="text-center mb-5 font-normal text-gray-700 dark:text-gray-400">
+                                        {{\Carbon\Carbon::parse($game->date)->format('d/m/Y')}}
+                                    </h4>
+                                    <div class="grid grid-cols-3 grid-rows-3 place-items-center">
+                                        <img
+                                            src="{{$game->homeTeam->logo_url}}"
+                                            alt="Equipo local"
+                                            class="rounded-full object-cover aspect-square"
+                                        />
+
+                                        <div class="row-span-3 text-4xl">vs</div>
+
+                                        <img
+                                            src="{{$game->awayTeam->logo_url}}"
+                                            alt="Equipo visitante"
+                                            class="rounded-full object-cover aspect-square"
+                                        />
+
+                                        <div class="text-2xl">{{$game->home_team_goals}}</div>
+                                        <div class="text-2xl col-start-3">{{$game->away_team_goals}}</div>
+                                        <h5 class="text-xl text-center row-start-3">{{$game->homeTeam->name}}</h5>
+                                        <h5 class="text-xl text-center col-start-3 row-start-3">
+                                            {{$game->awayTeam->name}}
+                                        </h5>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <h2 class="py-4 text-center text-3xl dark:text-gray text-gray-500">
+                    No hay partidos agendados en esta temporada
+                </h2>
+            @endif
+        </div>
+
+        @livewire('helpers.delete-modal', [
+        'modalId' => 'deleteGame',
+        'action' => 'deleteGame',
+        'actionName' => 'Eliminar',
+        'title' => 'Eliminar Partido',
+        'content' => '¿Está seguro de que desea eliminar este Partido? <b>Esta acción es irreversible</b>',
+        ])
     @endif
-    @script
-    <script>
-        $wire.on('deleteTeamError', () => {
-                Toastify({
-                    text: "Este equipo no se puede eliminar",
-                    duration: 3000,
-                    close: true,
-                    position: "right",
-                    style: {
-                        borderRadius: "1rem",
-                        fontSize: "1.3rem",
-                        background: "linear-gradient(to right, #ff0000, #ff7f7f)",
-
-                    }
-                }).showToast();
-        });
-    </script>
-    @endscript
 </div>

@@ -19,9 +19,9 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/attendance-list', function () {
+    Route::get('/tomar-asistencia', function () {
         return view('qr-test');
-    })->name('qr-test');
+    })->name('attendance.scan');
 
     Route::get('/ligas', static fn() => view('league.index'))->name('league.index');
 

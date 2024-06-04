@@ -32,7 +32,7 @@
 
             <div class="flex items-center lg:order-2">
                 <!-- Notifications -->
-                <x-layout.sub.notification />
+{{--                <x-layout.sub.notification />--}}
                 <!-- End Notifications -->
 
                 <!-- Apps -->
