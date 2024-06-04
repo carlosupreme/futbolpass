@@ -40,10 +40,6 @@ Route::middleware([
     //     'player' => Player::findOrFail($id)
     // ]))->name('player.show');
 
-    Route::get('/team/{id}', static fn($id) => view('team.show', [
-        'team' => Team::findOrFail($id)
-    ]))->name('team.show');
-    
     Route::get('/equipo/{id}', static fn($id) => view('team.show', ['id' => $id]))->name('team.show');
 
     Route::get('/jugadores', static fn() => view('player.index'))->name('player.index');
