@@ -25,13 +25,36 @@
             </div>
 
             <div>
+                <label for="league_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Liga 
+                </label>
+                <select wire:model.live="league_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    @foreach (\App\Models\League::all() as $league)
+                        <option value="{{ $league->id }}">{{ $league->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="season_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Temporada 
+                </label>
+                <select wire:model.live="season_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:key.live="{{ $league_id }}">
+                    @foreach (\App\Models\Season::whereLeagueId($league_id)->get() as $season)
+                        <option value="{{ $season->id }}">{{ $season->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
                 <label for="team_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Equipo 
                 </label>
-                <select wire:model="team_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select wire:model.live="team_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    wire:key.live="{{ $season_id }}">
                     <option disabled>Selecciona un equipo</option>
                 
-                    @foreach (\App\Models\Team::all() as $team)
+                    @foreach (\App\Models\Team::whereSeasonId($season_id)->get() as $team)
                         <option value="{{ $team->id }}">{{ $team->name }}</option>
                     @endforeach
                 </select>

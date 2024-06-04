@@ -25,6 +25,9 @@ class Create extends Component {
     #[Validate('required|image')]
     public $photo;
 
+    public $league_id;
+    public $season_id;
+
     public function store()
     {
         $this->validate();
