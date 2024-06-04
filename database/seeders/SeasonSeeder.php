@@ -12,7 +12,7 @@ class SeasonSeeder extends Seeder
      */
     public function run(): void
     {
-        $seasonNames = ["Sub 17", "Sub 21", "Eurocopa"];
+        $seasonNames = ["Sub 21", "Primera División"];
 
         for ($i = 1; $i <= 3; $i++) 
             foreach ($seasonNames as $name) 

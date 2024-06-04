@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Season extends Model
-{
+class Season extends Model {
     protected $fillable = ['name', 'league_id', 'start_date', 'end_date'];
 
-    public function league()
-    {
+    public function league() {
         return $this->belongsTo(League::class);
     }
 
-    public function teams()
-    {
+    public function teams() {
         return $this->hasMany(Team::class);
+    }
+
+    public function games() {
+        return $this->hasMany(Game::class);
     }
 }
