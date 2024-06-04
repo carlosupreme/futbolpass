@@ -19,14 +19,10 @@ class Create extends Component {
     #[Validate('required|integer|max:10')]
     public $jersey_number;
 
-    #[Validate('required|integer')]
     public $team_id;
 
     #[Validate('required|image')]
     public $photo;
-
-    public $league_id;
-    public $season_id;
 
     public function store()
     {
@@ -40,13 +36,11 @@ class Create extends Component {
         ]);
 
         $this->dispatch('playerCreated');
-
-        $this->reset();
+        $this->resetExcept($this->team_id);
     }
 
-    public function resetValues()
-    {
-        $this->reset();
+    public function resetValues() {
+        $this->resetExcept($this->team_id);
     }
 
     public function render()

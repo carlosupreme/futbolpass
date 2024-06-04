@@ -29,19 +29,19 @@
             @foreach($season->teams as $team)
                 <div wire:key="{{$team->id}}"
                      class="w-64 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <a href="{{route('league.show', ['id' => $team->id])}}">
+                    <a href="{{route('team.show', ['id' => $team->id])}}">
                         <img class="rounded-t-lg w-full h-32 object-cover"
                              src="{{$team->logo ?: Auth::user()->profile_photo_url}}" alt=""/>
                     </a>
                     <div class="p-5">
-                        <a href="{{route('league.show', ['id' => $team->id])}}">
+                        <a href="{{route('team.show', ['id' => $team->id])}}">
                             <h5 class="hover:underline mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{$team->name}}</h5>
                         </a>
                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Esta equipo cuenta
                             con {{count($team->players)}} jugadores</p>
 
                         <div class="flex items-center justify-between ">
-                            <a href="{{route('league.show', ['id' => $team->id])}}"
+                            <a href="{{route('team.show', ['id' => $team->id])}}"
                                class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Ver jugadores
                             </a>
