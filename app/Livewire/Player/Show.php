@@ -9,9 +9,9 @@ class Show extends Component
 {
     public Player $player;
 
-    public function mount(Player $player)
+    public function mount($id)
     {
-        $this->player = $player;
+        $this->player = Player::findOrFail($id);
     }
 
     public function render()

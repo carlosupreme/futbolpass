@@ -3,6 +3,7 @@
 namespace App\Livewire\Season;
 
 use App\Models\Season;
+use App\Utils\Toast;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -40,6 +41,7 @@ class Create extends Component
 
         $this->dispatch('seasonCreated');
         $this->resetExcept('league_id');
+        Toast::success($this, 'Nueva temporada registrada exitosamente');
     }
 
     public function resetValues()

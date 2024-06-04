@@ -1,17 +1,18 @@
 <div>
+
     <div class="flex items-center mb-4 justify-center">
         <a
-            href="{{route('league.index')}}"
+            href="{{route('season.show', ['id' => $team->season->id])}}"
             class="mr-auto flex items-center justify-center px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700"
         >
             <svg class="w-5 h-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                  stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"/>
             </svg>
-            <span>Ver ligas</span>
+            <span>Ver temporada</span>
         </a>
         <h1 class="text-2xl min-w-fit font-bold text-center">
-            {{$league->name}}
+            {{$team->name}}
         </h1>
     </div>
 
@@ -28,31 +29,35 @@
             <input type="search"
                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                    id="search"
-                   placeholder="Buscar temporada..."
+                   placeholder="Buscar jugador..."
                    wire:model.live="search"
                    required/>
         </div>
-        @livewire('season.create', ['league_id' => $league->id])
+        @livewire('player.create', ['team_id' => $team->id])
     </div>
 
     <div class="max-w-full mx-auto p-4 flex flex-wrap justify-center">
-        @if(count($seasons) > 0)
+        @if(count($this->players) > 0)
             <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                @foreach($seasons as $season)
+                @foreach($this->players as $player)
                     <div
-                        class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 min-h-32 flex flex-col">
+                        class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 min-h-96 max-h-64 flex flex-col">
                         <div
                             class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+                            <div class="relative w-full h-48">
+                                <img class="absolute inset-0 w-full h-full object-cover" src="{{$player->photo_url}}"
+                                     alt="Foto de la liga"/>
+                            </div>
                             <div class="p-4 flex flex-col justify-between flex-grow">
-                                <h3 class="text-2xl font-semibold mb-2">{{$season->name}}</h3>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$season->teams_count}} equipos</p>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{0 }} partidos</p>
+                                <h3 class="text-2xl font-semibold mb-2">{{$player->name}}</h3>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                    # {{$player->jersey_number}}</p>
                                 <div class="flex items-center justify-between mt-auto">
-                                    <a href="{{route('season.show', ['id' => $season->id])}}"
-                                       class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                        Ver más
+                                    <a href="{{route('player.show', ['id' => $player->id])}}"
+                                       class="min-w-fit inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        Ver credencial
                                     </a>
-                                    <button wire:click="confirmDelete({{$season->id}})"
+                                    <button wire:click="confirmDelete({{$player->id}})"
                                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                                         <x-fas-trash class="w-4 h-4 mr-1"/>
                                         <span>Eliminar</span>
@@ -63,18 +68,24 @@
                     </div>
                 @endforeach
             </div>
+            <div x-intersect.full="$wire.loadMore()" class="p-4">
+                <div wire:loading wire:target="loadMore"
+                     class="loading-indicator">
+                    Cargando más jugadores...
+                </div>
+            </div>
         @else
             <h2 class="py-4 text-center text-3xl dark:text-gray text-gray-500">
-                No hay temporadas registradas
+                No hay jugadores en este equipo
             </h2>
         @endif
     </div>
 
     @livewire('helpers.delete-modal', [
-    'modalId' => 'deleteSeason',
-    'action' => 'deleteSeason',
+    'modalId' => 'deletePlayer',
+    'action' => 'deletePlayer',
     'actionName' => 'Eliminar',
-    'title' => 'Eliminar Temporada',
-    'content' => '¿Está seguro de que desea eliminar esta Liga? <b>Esta acción es irreversible</b>',
+    'title' => 'Eliminar jugador',
+    'content' => '¿Está seguro de que desea eliminar este jugador? <b>Esta acción es irreversible</b>',
     ])
 </div>

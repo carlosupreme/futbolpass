@@ -4,20 +4,18 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
-     *
-     *
      */
     public function up(): void
     {
-        Schema::create('players', function (Blueprint $table) {
+        Schema::create('attendance_lists', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('jersey_number');
-            $table->foreignId('team_id')->constrained();
-            $table->string('photo')->nullable();
+            $table->foreignId('game_id')->constrained();
+            $table->foreignId('player_id')->constrained();
+            $table->boolean('is_present')->default(false);
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('players');
+        Schema::dropIfExists('attendance_lists');
     }
 };

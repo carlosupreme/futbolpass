@@ -8,7 +8,7 @@ import QrScanner from "qr-scanner";
 import {Modal} from "flowbite";
 import Toastify from 'toastify-js'
 
-
+window.Toastify = Toastify;
 window.QRCode = QRCode;
 window.QrScanner = QrScanner;
 window.Modal = Modal;

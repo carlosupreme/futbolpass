@@ -1,13 +1,14 @@
 <?php
 
 use App\Models\League;
-use App\Models\Player;
 use App\Models\Season;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/dashboard');
 });
+
+Route::get('/jugadores/{id}', static fn($id) => view('player.show', compact('id')))->name('player.show');
 
 Route::middleware([
     'auth:sanctum',
@@ -32,10 +33,7 @@ Route::middleware([
         'season' => Season::with('league','teams')->findOrFail($id)
     ]))->name('season.show');
 
-    Route::get('/jugadores', static fn() => view('player.index'))->name('player.index');
+    Route::get('/equipo/{id}', static fn($id) => view('team.show', ['id' => $id]))->name('team.show');
 
-    Route::get('/jugadores/{id}', static fn($id) => view('player.show', [
-        'player' => Player::findOrFail($id)
-    ]))->name('player.show');
-    
+    Route::get('/jugadores', static fn() => view('player.index'))->name('player.index');
 });

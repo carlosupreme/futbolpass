@@ -3,7 +3,7 @@
 namespace App\Livewire\Player;
 
 use App\Models\Player;
-use Illuminate\Support\Facades\Storage;
+use App\Utils\Toast;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -16,34 +16,43 @@ class Create extends Component {
     #[Validate('required|string|max:255')]
     public $name;
 
-    #[Validate('required|integer|max:10')]
+    #[Validate('required|integer|max_digits:3')]
     public $jersey_number;
 
-    #[Validate('required|integer')]
+    #[Validate('required|integer|exists:teams,id')]
     public $team_id;
 
-    #[Validate('required|image')]
+    #[Validate('nullable|image')]
     public $photo;
+
+    public function mount($team_id)
+    {
+        $this->team_id = $team_id;
+    }
 
     public function store()
     {
         $this->validate();
 
-        Player::create([
+        $player = Player::create([
             'name' => $this->name,
             'jersey_number' => $this->jersey_number,
             'team_id' => $this->team_id,
-            'photo' => $this->photo ? Storage::url($this->photo->store('players')): null,
         ]);
+
+        if($this->photo) {
+            $player->updatePhoto($this->photo);
+        }
 
         $this->dispatch('playerCreated');
 
-        $this->reset();
+        $this->resetValues();
+        Toast::success($this, 'Nuevo jugador registrado exitosamente');
     }
 
     public function resetValues()
     {
-        $this->reset();
+        $this->resetExcept('team_id');
     }
 
     public function render()
