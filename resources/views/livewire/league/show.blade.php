@@ -10,9 +10,30 @@
             </svg>
             <span>Ver ligas</span>
         </a>
-        <h1 class="text-2xl min-w-fit font-bold text-center">
-            {{$league->name}}
-        </h1>
+        @if($editMode)
+            <div class="min-w-fit flex gap-2 items-center">
+                <label for="nameInput"
+                       class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                <x-input type="search"
+                         wire:model.live="name"
+                         @search="$dispatch('closeEditMode')"
+                         id="nameInput"
+                         placeholder="{{$league->name}}"
+                         required
+                />
+                <button wire:click="updateName"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-2 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <x-fas-check class="w-4 h-4"/>
+                </button>
+            </div>
+        @else
+            <h1 wire:click="editName"
+                class="text-2xl min-w-fit font-bold cursor-pointer text-center">
+                <x-far-pen-to-square
+                    class="inline w-4 h-4 text-gray-500 dark:text-gray-400"/>
+                {{$league->name}}
+            </h1>
+        @endif
     </div>
 
     <div class="flex items-center max-w-4xl gap-2 mx-auto mb-5">
@@ -45,8 +66,10 @@
                             class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
                             <div class="p-4 flex flex-col justify-between flex-grow">
                                 <h3 class="text-2xl font-semibold mb-2">{{$season->name}}</h3>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$season->teams_count}} equipos</p>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$season->games_count }} partidos</p>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$season->teams_count}}
+                                    equipos</p>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{$season->games_count }}
+                                    partidos</p>
                                 <div class="flex items-center justify-between mt-auto">
                                     <a href="{{route('season.show', ['id' => $season->id])}}"
                                        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -77,4 +100,5 @@
     'title' => 'Eliminar Temporada',
     'content' => '¿Está seguro de que desea eliminar esta Liga? <b>Esta acción es irreversible</b>',
     ])
+
 </div>

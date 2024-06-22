@@ -1,5 +1,4 @@
-<div>
-
+<div >
     <div class="flex items-center mb-4 justify-center">
         <a
             href="{{route('season.show', ['id' => $team->season->id])}}"
@@ -11,9 +10,30 @@
             </svg>
             <span>Ver temporada</span>
         </a>
-        <h1 class="text-2xl min-w-fit font-bold text-center">
-            {{$team->name}}
-        </h1>
+        @if($editMode)
+            <div class="min-w-fit flex gap-2 items-center">
+                <label for="nameInput"
+                       class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                <x-input type="search"
+                         wire:model.live="name"
+                         @search="$dispatch('closeEditMode')"
+                         id="nameInput"
+                         placeholder="{{$team->name}}"
+                         required
+                />
+                <button wire:click="updateName"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-2 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <x-fas-check class="w-4 h-4"/>
+                </button>
+            </div>
+        @else
+            <h1 wire:click="editName"
+                class="text-2xl min-w-fit font-bold cursor-pointer text-center">
+                <x-far-pen-to-square
+                    class="inline w-4 h-4 text-gray-500 dark:text-gray-400"/>
+                {{$team->name}}
+            </h1>
+        @endif
     </div>
 
     <div class="flex items-center max-w-4xl gap-2 mx-auto mb-5">

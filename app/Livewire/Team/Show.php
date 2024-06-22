@@ -15,10 +15,40 @@ class Show extends Component
     public $search;
     public int $on_page = 4;
     public Team $team;
+    public string $name = '';
+    public $editMode = false;
 
     public function mount($teamId)
     {
         $this->team = Team::find($teamId);
+        $this->name = $this->team->name;
+    }
+
+    public function updateName()
+    {
+        if ($this->name === $this->team->name) {
+            $this->closeEditMode();
+            return;
+        }
+
+        $this->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $this->team->update(['name' => $this->name]);
+        $this->closeEditMode();
+    }
+
+    #[On('closeEditMode')]
+    public function closeEditMode()
+    {
+        $this->name = $this->team->name;
+        $this->editMode = false;
+    }
+
+    public function editName()
+    {
+        $this->editMode = true;
     }
 
     #[Computed]

@@ -17,9 +17,40 @@ class Show extends Component
 
     public $page = 'teams';
 
+    public string $name = '';
+    public $editMode = false;
+
     public function mount(Season $season)
     {
         $this->season = $season;
+        $this->name = $this->season->name;
+    }
+
+    public function updateName()
+    {
+        if ($this->name === $this->season->name) {
+            $this->closeEditMode();
+            return;
+        }
+
+        $this->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $this->season->update(['name' => $this->name]);
+        $this->closeEditMode();
+    }
+
+    #[On('closeEditMode')]
+    public function closeEditMode()
+    {
+        $this->name = $this->season->name;
+        $this->editMode = false;
+    }
+
+    public function editName()
+    {
+        $this->editMode = true;
     }
 
     public function showGame($gameId)
