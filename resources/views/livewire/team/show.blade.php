@@ -1,4 +1,4 @@
-<div >
+<div>
     <div class="flex items-center mb-4 justify-center">
         <a
             href="{{route('season.show', ['id' => $team->season->id])}}"
@@ -10,6 +10,11 @@
             </svg>
             <span>Ver temporada</span>
         </a>
+
+        <div class="mx-10">
+            @livewire('update-photo-form', ['model' => $team])
+        </div>
+
         @if($editMode)
             <div class="min-w-fit flex gap-2 items-center">
                 <label for="nameInput"
@@ -19,6 +24,7 @@
                          @search="$dispatch('closeEditMode')"
                          id="nameInput"
                          placeholder="{{$team->name}}"
+                         autofocus
                          required
                 />
                 <button wire:click="updateName"
@@ -58,7 +64,7 @@
 
     <div class="max-w-full mx-auto p-4 flex flex-wrap justify-center">
         @if(count($this->players) > 0)
-            <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            <div class="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4 mb-4">
                 @foreach($this->players as $player)
                     <div
                         class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 min-h-96 max-h-64 flex flex-col">
@@ -69,7 +75,12 @@
                                      alt="Foto de la liga"/>
                             </div>
                             <div class="p-4 flex flex-col justify-between flex-grow">
-                                <h3 class="text-2xl font-semibold mb-2">{{$player->name}}</h3>
+                                <h3 class="text-2xl font-semibold mb-2">
+                                    {{$player->name}}
+                                    <a href="{{route('player.edit', ['id' => $player->id])}}">
+                                        <x-far-pen-to-square class="inline w-4 h-4 text-gray-500 dark:text-gray-400"/>
+                                    </a>
+                                </h3>
                                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                                     # {{$player->jersey_number}}</p>
                                 <div class="flex items-center justify-between mt-auto">

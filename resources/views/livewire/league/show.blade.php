@@ -10,6 +10,10 @@
             </svg>
             <span>Ver ligas</span>
         </a>
+
+        <div class="mx-10">
+            @livewire('update-photo-form', ['model' => $league])
+        </div>
         @if($editMode)
             <div class="min-w-fit flex gap-2 items-center">
                 <label for="nameInput"
@@ -19,6 +23,7 @@
                          @search="$dispatch('closeEditMode')"
                          id="nameInput"
                          placeholder="{{$league->name}}"
+                         autofocus
                          required
                 />
                 <button wire:click="updateName"

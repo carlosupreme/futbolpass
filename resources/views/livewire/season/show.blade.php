@@ -24,6 +24,7 @@
                              wire:model.live="name"
                              @search="$dispatch('closeEditMode')"
                              id="nameInput"
+                             autofocus
                              placeholder="{{$season->name}}"
                              required
                     />

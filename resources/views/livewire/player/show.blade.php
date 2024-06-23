@@ -1,53 +1,49 @@
-<div>
-    <h1 class="text-3xl font-medium text-gray-900 dark:text-white mb-5">
-        Información de jugador <br>
-    </h1>
-
-    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 m-auto">
-
-        <dl class="max-w-md text-gray-900 divide-y divide-gray-200">
-            <div class="flex flex-col pb-3">
-                <dt class="mb-1 text-blue-500 md:text-lg dark:text-blue-400">Foto de perfil</dt>
-                <dd class="text-lg font-semibold"><img alt="Foto del jugador" src="{{ $player->photo_url }} "
-                                                       class="w-full object-cover rounded-lg h-48"/></dd>
-            </div>
-
-            <div class="flex flex-col pb-3">
-                <dt class="mb-1 text-blue-500 md:text-lg dark:text-blue-400">Nombre completo</dt>
-                <dd class="text-lg font-semibold">{{ $player->name }}</dd>
-            </div>
-
-            <div class="flex flex-col py-3">
-                <dt class="mb-1 text-blue-500 md:text-lg dark:text-blue-400">Nombre de equipo</dt>
-                <dd class="text-lg font-semibold">
-                    {{ $player->team->name }}
-                </dd>
-            </div>
-
-            <div class="flex flex-col pt-3">
-                <dt class="mb-1 text-blue-500 md:text-lg dark:text-blue-400">Código QR</dt>
-                <dd class="text-lg font-semibold">
-                    <div class="border shadow w-fit m-auto">
-                        <img id="qr-img" alt="Código QR del jugador con ID = {{$player->id}}" src=""/>
-                    </div>
-                </dd>
-            </div>
-        </dl>
-
-        <div>
-            <p id="qr-error"></p>
+<div class="w-full bg-white p-2 flex flex-col gap-9">
+    <div class="flex items-center gap-2">
+        <img
+            class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-full border-gray-100 border-2"
+            src="{{$player->photo_url}}"
+            alt="{{$player->name}}"
+        >
+        <div class="flex flex-col gap-2 font-bold">
+            <h1 class="text-gray-800 text-xl">{{$player->name}}</h1>
+            <h2 class="text-gray-600">
+                <a class="hover:underline"
+                   href="{{route('team.show', ['id' => $player->team->id])}}">{{$player->team->name}}</a>
+                <span class="ml-2">#{{$player->jersey_number}}</span>
+            </h2>
         </div>
     </div>
+
+    <div class="w-fit mx-auto">
+        <img id="qr-img" alt="Código QR del jugador con ID = {{$player->id}}" src=""/>
+    </div>
+
+    <x-button
+        x-data="{
+            downloadQR() {
+                const link = document.createElement('a');
+                link.href = document.getElementById('qr-img').src;
+                link.download = 'QR-' + '{{ $player->name }}' + '.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }"
+        class="w-full lg:w-fit mx-auto justify-center"
+        @click="downloadQR()"
+    >
+        Guardar QR
+    </x-button>
+
+    <script type="module">
+        const userID = `{{ Js::from($player->id) }}`;
+        const imageRef = document.getElementById("qr-img");
+        const errorRef = document.getElementById("qr-error");
+        const options = {version: 3, width: 400};
+
+        QRCode.toDataURL(userID, options).then((url) => imageRef.src = url).catch(e => {
+            errorRef.textContent = "No se pudo generar el código QR";
+        });
+    </script>
 </div>
-
-<script type="module">
-    const userID = {{Js::from($player->id) }};
-    let qrDiv = document.getElementById("qr-img");
-
-    QRCode.toDataURL(userID + "", {version: 3, width: 300}).then((url) => {
-        qrDiv.src = url;
-    }).catch(err => {
-        let p = document.getElementById("qr-error");
-        p.textContent = "No se pudo generar tu código QR";
-    });
-</script>

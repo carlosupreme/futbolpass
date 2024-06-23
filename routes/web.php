@@ -34,13 +34,9 @@ Route::middleware([
         'season' => Season::with('league','teams')->findOrFail($id)
     ]))->name('season.show');
 
-    //Route::get('/jugadores', static fn() => view('player.index'))->name('player.index');
-
-    // Route::get('/jugadores/{id}', static fn($id) => view('player.show', [
-    //     'player' => Player::findOrFail($id)
-    // ]))->name('player.show');
-
     Route::get('/equipo/{id}', static fn($id) => view('team.show', ['id' => $id]))->name('team.show');
 
     Route::get('/jugadores', static fn() => view('player.index'))->name('player.index');
+
+    Route::get('/jugadores/{id}/editar', static fn($id) => view('player.edit', compact('id')))->name('player.edit');
 });
