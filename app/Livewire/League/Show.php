@@ -58,11 +58,15 @@ class Show extends Component
     #[On('deleteSeason')]
     public function deleteSeason($id)
     {
-        Season::destroy($id);
-
-        $this->dispatch('actionCompleted');
-        $this->dispatch('seasonDeleted');
-        Toast::success($this, 'Temporada eliminada exitosamente');
+        try {
+            Season::destroy($id);
+            $this->dispatch('actionCompleted');
+            $this->dispatch('seasonDeleted');
+            Toast::success($this, 'Temporada eliminada exitosamente');
+        } catch (\Exception $e) {
+            Toast::error($this, 'No se pudo eliminar la temporada');
+            $this->dispatch('actionCompleted');
+        }
     }
 
     #[On('seasonCreated')]

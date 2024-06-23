@@ -5,6 +5,7 @@ namespace App\Livewire\League;
 use App\Models\League;
 use App\Utils\Toast;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -45,11 +46,17 @@ class Index extends Component
     #[On('deleteLeague')]
     public function deleteLeague($id)
     {
-        $league = League::find($id);
-        if ($league->logo) $league->deletePhoto();
-        $league->delete();
-        $this->dispatch('actionCompleted');
-        $this->dispatch('leagueDeleted');
-        Toast::success($this, 'Liga eliminada exitosamente');
+        try {
+            $league = League::find($id);
+            $photo = $league->logo;
+            $league->delete();
+            if ($photo) Storage::disk('public')->delete($photo);
+            $this->dispatch('actionCompleted');
+            $this->dispatch('leagueDeleted');
+            Toast::success($this, 'Liga eliminada exitosamente');
+        } catch (\Exception $e) {
+            Toast::error($this, 'No se pudo eliminar la liga');
+            $this->dispatch('actionCompleted');
+        }
     }
 }

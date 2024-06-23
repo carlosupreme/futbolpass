@@ -166,44 +166,37 @@
             @if(count($games) > 0)
                 <div class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                     @foreach($games as $game)
-                        <div
-                            class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 min-h-96 max-h-64 flex flex-col">
-                            <div
-                                class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
-                                <div class="p-4 flex flex-col justify-between flex-grow">
-                                    <h5
-                                        wire:click="showGame({{$game->id}})"
-                                        class="cursor-pointer text-center hover:underline hover:text-blue-700 mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                        {{$game->name}}
-                                    </h5>
+                        <div class="bg-white p-4 border-2 border-dashed border-gray-300 rounded-lg flex flex-col">
+                            <h5
+                                wire:click="showGame({{$game->id}})"
+                                class="cursor-pointer text-center hover:underline hover:text-blue-700 mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                {{$game->name}}
+                            </h5>
 
-                                    <h4 class="text-center mb-5 font-normal text-gray-700 dark:text-gray-400">
-                                        {{\Carbon\Carbon::parse($game->date)->format('d/m/Y')}}
-                                    </h4>
-                                    <div class="grid grid-cols-3 grid-rows-3 place-items-center">
-                                        <img
-                                            src="{{$game->homeTeam->logo_url}}"
-                                            alt="Equipo local"
-                                            class="rounded-full object-cover aspect-square"
-                                        />
+                            <h4 class="text-center mb-1 font-normal text-gray-700 dark:text-gray-400">
+                                {{\Carbon\Carbon::parse($game->date)->format('d/m/Y')}}
+                            </h4>
+                            <div class="grid grid-cols-3 grid-rows-3 place-items-center">
+                                <img
+                                    src="{{$game->homeTeam->logo_url}}"
+                                    alt="Equipo local"
+                                    class="rounded-full object-cover aspect-square h-32 w-32"
+                                />
 
-                                        <div class="row-span-3 text-4xl">vs</div>
+                                <div class="row-span-3 text-4xl">vs</div>
 
-                                        <img
-                                            src="{{$game->awayTeam->logo_url}}"
-                                            alt="Equipo visitante"
-                                            class="rounded-full object-cover aspect-square"
-                                        />
+                                <img
+                                    src="{{$game->awayTeam->logo_url}}"
+                                    alt="Equipo visitante"
+                                    class="rounded-full object-cover aspect-square h-32 w-32"
+                                />
 
-                                        <div class="text-2xl">{{$game->home_team_goals}}</div>
-                                        <div class="text-2xl col-start-3">{{$game->away_team_goals}}</div>
-                                        <h5 class="text-xl text-center row-start-3">{{$game->homeTeam->name}}</h5>
-                                        <h5 class="text-xl text-center col-start-3 row-start-3">
-                                            {{$game->awayTeam->name}}
-                                        </h5>
-                                    </div>
-
-                                </div>
+                                <div class="text-2xl">{{$game->home_team_goals}}</div>
+                                <div class="text-2xl col-start-3">{{$game->away_team_goals}}</div>
+                                <h5 class="text-xl text-center row-start-3">{{$game->homeTeam->name}}</h5>
+                                <h5 class="text-xl text-center col-start-3 row-start-3">
+                                    {{$game->awayTeam->name}}
+                                </h5>
                             </div>
                         </div>
                     @endforeach
