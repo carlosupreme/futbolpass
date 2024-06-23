@@ -24,7 +24,6 @@ class Show extends Component
                 'team' => $list->player->team
             ];
         });
-        debug($this->players);
         $this->open = true;
     }
 

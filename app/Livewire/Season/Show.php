@@ -15,7 +15,7 @@ class Show extends Component
     public $leagues = [];
     public $search;
 
-    public $page = 'games';
+    public $page = 'teams';
 
     public string $name = '';
     public $editMode = false;

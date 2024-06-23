@@ -23,7 +23,7 @@
                         />
                         <a
                             href="{{route('player.show', ['id' => $player["player"]->id])}}"
-                            class="font-bold text-primary-600 hover:underline dark:text-primary-500"
+                            class="font-bold text-gray-500 hover:underline"
                         >
                             {{$player["player"]->name}} # {{$player["player"]->jersey_number}}
                         </a>
@@ -45,9 +45,9 @@
                             Si
                           </span>
                         @else
-                                    <span
-                                        class="text-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                                    >
+                            <span
+                                class="text-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                            >
                             No
                           </span>
                         @endif
