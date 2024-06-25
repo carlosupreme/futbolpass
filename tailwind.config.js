@@ -13,10 +13,15 @@ export default {
 
     theme: {
         extend: {
-            gridTemplateColumns:{
+            backgroundImage: {
+                'login': "url('/cancha.jpg')",
+            },
+            gridTemplateColumns: {
                 'mobile': 'repeat(auto-fill, minmax(5rem, 1fr))',
             },
             colors: {
+                "login" : "#011c26",
+                "login-2": "#45694b",
                 "primary": {
                     50: "#FEF9F6",
                     100: "#FCEFE8",
