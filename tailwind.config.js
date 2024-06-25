@@ -13,9 +13,6 @@ export default {
 
     theme: {
         extend: {
-            backgroundImage: {
-                'login': "url('/cancha.jpg')",
-            },
             gridTemplateColumns: {
                 'mobile': 'repeat(auto-fill, minmax(5rem, 1fr))',
             },
