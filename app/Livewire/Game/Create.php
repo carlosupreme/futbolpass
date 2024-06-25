@@ -6,6 +6,7 @@ use App\Models\AttendanceList;
 use App\Models\Game;
 use App\Models\Team;
 use App\Utils\Toast;
+use Exception;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -20,15 +21,13 @@ class Create extends Component
     public $date;
 
     #[Validate('required|different:awayTeamId')]
-    public $homeTeamId = "";
+    public $home_team_id = "";
 
     #[Validate('required|different:homeTeamId')]
-    public $awayTeamId = "";
+    public $away_team_id = "";
 
+    #[Validate('required|exists:seasons,id')]
     public $season_id;
-
-    #[Validate('nullable|string|max:255')]
-    public $refereeName;
 
     public function mount($season_id)
     {
@@ -39,36 +38,43 @@ class Create extends Component
     {
         $this->validate();
 
-        $game = Game::create([
-            'season_id' => $this->season_id,
-            'name' => $this->name,
-            'date' => $this->date,
-            'home_team_id' => $this->homeTeamId,
-            'away_team_id' => $this->awayTeamId,
-            'referee_name' => $this->refereeName,
-        ]);
+        $game = Game::create($this->except('open'));
 
-        $this->createAttendanceLists($game->id);
+        try {
+            $this->createAttendanceLists($game->id);
+        } catch (Exception $e) {
+            $game->delete();
+            Toast::error($this, $e->getMessage());
+            return;
+        }
 
         $this->dispatch('gameCreated');
         $this->resetValues();
         Toast::success($this, 'Nuevo partido registrado exitosamente');
     }
 
+    /**
+     * @throws Exception
+     */
     public function createAttendanceLists($gameId)
     {
-        Team::with('players')
-            ->where('id', $this->homeTeamId)
-            ->orWhere('id', $this->awayTeamId)
+        $players = Team::with('players')
+            ->where('id', $this->home_team_id)
+            ->orWhere('id', $this->away_team_id)
             ->get()
             ->pluck('players')
-            ->flatten()
-            ->each(function ($player) use ($gameId) {
-                AttendanceList::create([
-                    'game_id' => $gameId,
-                    'player_id' => $player->id,
-                ]);
-            });
+            ->flatten();
+
+        if (empty($players->toArray())) {
+            throw new Exception('No se encontraron jugadores en los equipos seleccionados');
+        }
+
+        $players->each(function ($player) use ($gameId) {
+            AttendanceList::create([
+                'game_id' => $gameId,
+                'player_id' => $player->id,
+            ]);
+        });
     }
 
     public function resetValues()

@@ -3,19 +3,32 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Team extends Model
 {
+    use HasUuids;
 
-    protected $fillable = ['name', 'season_id', 'logo'];
+    protected $keyType = 'string';
+    public $incrementing = false;
 
+    protected $fillable = ['name', 'logo', 'season_id'];
     protected $appends = ['logo_url'];
 
+    public static function booted(): void
+    {
+        static::creating(function ($model) {
+            $model->id = (string)Str::uuid();
+        });
+    }
 
-    public function updatePhoto(UploadedFile $photo, $storagePath = 'teams')
+    public function updatePhoto(UploadedFile $photo, $storagePath = 'teams'): void
     {
         tap($this->foto, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
@@ -28,7 +41,7 @@ class Team extends Model
         });
     }
 
-    public function deletePhoto()
+    public function deleteLogo(): void
     {
         if (is_null($this->logo)) return;
 
@@ -48,19 +61,13 @@ class Team extends Model
         });
     }
 
-
-    public function season()
+    public function season(): BelongsTo
     {
         return $this->belongsTo(Season::class);
     }
 
-    public function players()
+    public function players(): HasMany
     {
         return $this->hasMany(Player::class);
-    }
-
-    public function games()
-    {
-        return $this->belongsToMany(Game::class);
     }
 }

@@ -72,7 +72,6 @@
     </div>
 
     @if($page === 'teams')
-
         <div class="flex items-center max-w-4xl gap-2 mx-auto my-5">
             <label for="search" class="sr-only">Search</label>
             <div class="relative w-full">
@@ -114,7 +113,7 @@
                                            class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                             Ver jugadores
                                         </a>
-                                        <button wire:click="confirmTeamDelete({{$team->id}})"
+                                        <button wire:click="confirmTeamDelete('{{$team->id}}')"
                                                 class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
                                             <x-fas-trash class="w-4 h-4 mr-1"/>
                                             <span>Eliminar</span>
@@ -168,7 +167,7 @@
                     @foreach($games as $game)
                         <div class="bg-white p-4 border-2 border-dashed border-gray-300 rounded-lg flex flex-col">
                             <h5
-                                wire:click="showGame({{$game->id}})"
+                                wire:click="showGame('{{$game->id}}')"
                                 class="cursor-pointer text-center hover:underline hover:text-blue-700 mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 {{$game->name}}
                             </h5>
@@ -180,7 +179,7 @@
                                 <img
                                     src="{{$game->homeTeam->logo_url}}"
                                     alt="Equipo local"
-                                    class="rounded-full object-cover aspect-square h-32 w-32"
+                                    class="rounded-full object-cover h-32 w-32"
                                 />
 
                                 <div class="row-span-3 text-4xl">vs</div>
@@ -188,7 +187,7 @@
                                 <img
                                     src="{{$game->awayTeam->logo_url}}"
                                     alt="Equipo visitante"
-                                    class="rounded-full object-cover aspect-square h-32 w-32"
+                                    class="rounded-full object-cover h-32 w-32"
                                 />
 
                                 <div class="text-2xl">{{$game->home_team_goals}}</div>
@@ -198,6 +197,11 @@
                                     {{$game->awayTeam->name}}
                                 </h5>
                             </div>
+                            <button wire:click="confirmGameDelete('{{$game->id}}')"
+                                    class="w-fit inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                                <x-fas-trash class="w-4 h-4 mr-1"/>
+                                <span>Eliminar</span>
+                            </button>
                         </div>
                     @endforeach
                 </div>

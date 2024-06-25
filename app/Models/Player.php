@@ -3,28 +3,41 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Player extends Model
 {
+    use HasUuids;
 
-    use HasFactory;
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = ['name', 'jersey_number', 'team_id', 'photo'];
 
-    public function team()
+    public static function booted(): void
+    {
+        static::creating(function ($model) {
+            $model->id = (string)Str::uuid();
+        });
+    }
+
+    public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
     }
 
-    public function attendanceLists()
+    public function attendanceLists(): HasMany
     {
         return $this->hasMany(AttendanceList::class);
     }
 
-    public function updatePhoto(UploadedFile $photo, $storagePath = 'players')
+    public function updatePhoto(UploadedFile $photo, $storagePath = 'players'): void
     {
         tap($this->photo, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
@@ -37,7 +50,7 @@ class Player extends Model
         });
     }
 
-    public function deletePhoto()
+    public function deletePhoto(): void
     {
         if (is_null($this->photo)) return;
 
@@ -57,7 +70,7 @@ class Player extends Model
         });
     }
 
-    protected function defaultPhotoUrl()
+    protected function defaultPhotoUrl(): string
     {
         $name = trim(collect(explode(' ', $this->name))->map(function ($segment) {
             return mb_substr($segment, 0, 1);

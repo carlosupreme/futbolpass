@@ -12,7 +12,6 @@ use Livewire\Component;
 
 class QrCamera extends Component
 {
-    public $title = "QR Camera";
     public $partidoId;
     public $list = [];
     public $search;
@@ -46,7 +45,9 @@ class QrCamera extends Component
     public function addToList($decoded)
     {
         if ($decoded === $this->previus) return;
+
         $this->previus = $decoded;
+
         $list = AttendanceList::where('game_id', $this->partidoId)
             ->where('is_present', false)
             ->pluck('player_id')
@@ -55,6 +56,7 @@ class QrCamera extends Component
         if (!in_array($decoded, $list)) return;
 
         Toast::info($this, "Asistencia registrada");
+
         AttendanceList::where('game_id', $this->partidoId)
             ->where('player_id', $decoded)
             ->update(['is_present' => true]);

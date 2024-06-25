@@ -13,10 +13,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('players', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('team_id')->constrained('teams');
             $table->string('name');
             $table->integer('jersey_number');
-            $table->foreignId('team_id')->constrained();
             $table->string('photo')->nullable();
             $table->timestamps();
         });

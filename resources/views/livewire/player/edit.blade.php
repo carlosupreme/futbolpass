@@ -58,7 +58,7 @@
                 <div class="flex flex-wrap gap-y-2 mt-3">
                     @foreach($teams as $id => $team)
                         <span
-                                wire:click="selectTeam({{$id}})"
+                                wire:click="selectTeam('{{$id}}')"
                             @class([
     "bg-blue-100" => $team_id == $id,
     "bg-gray-100" => $team_id != $id,
@@ -71,7 +71,7 @@
                 <x-input-error for="team_id" class="mt-2"/>
             </div>
 
-            <x-button wire:click="update" class="mt-4 w-full justify-center py-3">Guardar</x-button>
+            <x-button wire:click="updatePlayer" class="mt-4 w-full justify-center py-3">Guardar</x-button>
         </div>
     </div>
 

@@ -74,12 +74,17 @@ class Show extends Component
     #[On('deletePlayer')]
     public function deletePlayer($id)
     {
-        $player = Player::find($id);
-        if ($player->photo) $player->deletePhoto();
-        $player->delete();
-        $this->dispatch('actionCompleted');
-        $this->dispatch('playerDeleted');
-        Toast::success($this, 'Jugador eliminado exitosamente');
+        try {
+            $player = Player::find($id);
+            $player->delete();
+            $player->deletePhoto();
+            $this->dispatch('actionCompleted');
+            $this->dispatch('playerDeleted');
+            Toast::success($this, 'Jugador eliminado exitosamente');
+        } catch (\Exception $e) {
+            Toast::error($this, "El jugador se encuentra en una lista de asistencia y no puede ser eliminado");
+            $this->dispatch('actionCompleted');
+        }
     }
 
     #[On('playerCreated')]

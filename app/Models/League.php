@@ -3,18 +3,31 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class League extends Model
 {
-    protected $fillable = ['name', 'logo'];
-    protected $appends = [
-        'logo_url',
-    ];
+    use HasUuids;
 
-    public function updatePhoto(UploadedFile $photo, $storagePath = 'leagues')
+    protected $keyType = 'string';
+    public $incrementing = false;
+
+    protected $fillable = ['name', 'logo'];
+    protected $appends = ['logo_url'];
+
+    public static function booted(): void
+    {
+        static::creating(function ($model) {
+            $model->id = (string)Str::uuid();
+        });
+    }
+
+    public function updatePhoto(UploadedFile $photo, $storagePath = 'leagues'): void
     {
         tap($this->foto, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
@@ -27,7 +40,7 @@ class League extends Model
         });
     }
 
-    public function deletePhoto()
+    public function deletePhoto(): void
     {
         if (is_null($this->logo)) return;
 
@@ -47,7 +60,7 @@ class League extends Model
         });
     }
 
-    public function seasons()
+    public function seasons(): HasMany
     {
         return $this->hasMany(Season::class);
     }

@@ -29,23 +29,6 @@
 
                 <div class="mb-5">
                     <label
-                        for="name"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                        Nombre del arbitro
-                    </label>
-                    <input
-                        type="text"
-                        id="name"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Carlos Sosa"
-                        required=""
-                        wire:model="refereeName"
-                    />
-                </div>
-
-                <div class="mb-5">
-                    <label
                         for="date"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
@@ -63,7 +46,7 @@
 
                 <div class="mb-5">
                     <label
-                        for="homeTeamId"
+                        for="home_team_id"
                         class="block mb-5 text-sm font-medium text-gray-900 dark:text-white"
                     >
                         Equipos
@@ -72,26 +55,25 @@
                     <div class="grid grid-cols-3 place-items-center">
 
                         <div>
-                            <select name="" id="" wire:model.live="homeTeamId">
+                            <select id="home_team_id" wire:model.live="home_team_id">
                                 <option value="" disabled>Selecciona un equipo</option>
                                 @foreach($teams as $team)
                                     <option value="{{ $team->id }}">{{ $team->name }}</option>
                                 @endforeach
                             </select>
-                            <x-input-error for="homeTeamId" class="mt-2" />
+                            <x-input-error for="home_team_id" class="mt-2"/>
                         </div>
-
 
                         <h2>VS</h2>
 
                         <div>
-                            <select name="" id="" wire:model.live="awayTeamId">
+                            <select name="" id="away_team_id" wire:model.live="away_team_id">
                                 <option value="" disabled>Selecciona otro equipo</option>
                                 @foreach($teams as $team)
                                     <option value="{{ $team->id }}">{{ $team->name }}</option>
                                 @endforeach
                             </select>
-                            <x-input-error for="awayTeamId" class="mt-2" />
+                            <x-input-error for="away_team_id" class="mt-2"/>
                         </div>
 
                     </div>

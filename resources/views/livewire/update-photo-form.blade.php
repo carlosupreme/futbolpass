@@ -12,7 +12,8 @@
                 <label for="photo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione
                     la foto nueva</label>
             </div>
-            <div class="grid grid-cols-2 gap-2 w-full">
+
+            <div class="grid grid-cols-2 gap-2 w-full place-content-center place-items-center">
                 <label for="dropzone-file"
                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -24,16 +25,21 @@
                         </svg>
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click para subir</span>
                             o arrastra el archivo</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG (Max 5 MB)</p>
+                        <x-input-error for="photo"/>
                     </div>
                     <input id="dropzone-file" type="file" class="hidden" wire:model.live="photo"/>
                 </label>
+
+                <div wire:target="photo" wire:loading class="w-full flex flex-col gap-2 items-center justify-center">
+                    <x-loader class="m-auto"/>
+                    <p class="text-lg font-bold text-gray-400 w-full text-center">Subiendo archivo ...</p>
+                </div>
+
                 @if($photo)
-                    <img src="{{$photo->temporaryUrl()}}" alt="Foto"
-                         class="w-full h-64 object-contain rounded-lg"/>
+                    <img src="{{$photo->temporaryUrl()}}" alt="Foto" class="w-full h-64 object-contain rounded-lg"/>
                 @endif
             </div>
-            <x-input-error for="photo"/>
         </x-slot>
         <x-slot name="footer">
             <x-secondary-button wire:click="close" class="mr-2">Cancelar</x-secondary-button>

@@ -8,7 +8,8 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-class Create extends Component {
+class Create extends Component
+{
     use WithFileUploads;
 
     public $open = false;
@@ -19,11 +20,8 @@ class Create extends Component {
     #[Validate('required|integer|max_digits:3')]
     public $jersey_number;
 
-    #[Validate('required|integer|exists:teams,id')]
+    #[Validate('required|exists:teams,id')]
     public $team_id;
-
-    #[Validate('nullable|image')]
-    public $photo;
 
     public function mount($team_id)
     {
@@ -34,22 +32,14 @@ class Create extends Component {
     {
         $this->validate();
 
-        $player = Player::create([
-            'name' => $this->name,
-            'jersey_number' => $this->jersey_number,
-            'team_id' => $this->team_id,
-        ]);
-
-        if($this->photo) {
-            $player->updatePhoto($this->photo);
-        }
+        Player::create($this->except('open'));
 
         $this->dispatch('playerCreated');
 
         $this->resetValues();
         Toast::success($this, 'Nuevo jugador registrado exitosamente');
     }
-    
+
     public function resetValues()
     {
         $this->resetExcept('team_id');

@@ -64,13 +64,13 @@
                                     class="p-4 flex flex-col justify-between flex-grow"
                                 >
                                     <h5
-                                        wire:click="setGame({{$game->id}})"
+                                        wire:click="setGame('{{$game->id}}')"
                                         class="cursor-pointer text-center hover:underline hover:text-blue-700 mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
                                     >
                                         {{$game->name}}
                                     </h5>
 
-                                    <h4 wire:click="watchList({{$game->id}})"
+                                    <h4 wire:click="watchList('{{$game->id}}')"
                                         class="hover:underline cursor-pointer text-center mb-5 font-normal text-gray-700 dark:text-gray-400"
                                     >Ver lista</h4>
 

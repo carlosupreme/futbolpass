@@ -58,16 +58,24 @@ class Show extends Component
         $this->dispatch('showGame', $gameId);
     }
 
-    public function confirmTeamDelete($teamId)
+    public function confirmTeamDelete($teamId): void
     {
         $this->dispatch('selectItem', $teamId);
+    }
+
+    public function confirmGameDelete($gameId): void
+    {
+        $this->dispatch('selectItem', $gameId);
     }
 
     #[On('deleteTeam')]
     public function deleteTeam($teamId)
     {
         try {
-            Team::destroy($teamId);
+            $team = Team::find($teamId);
+            $team->deleteLogo();
+            $team->delete();
+
             $this->dispatch('teamDeleted', $teamId);
             Toast::success($this, 'Equipo eliminado exitosamente');
         } catch (\Exception $e) {
@@ -78,13 +86,13 @@ class Show extends Component
         }
     }
 
-    // no sirve aun
     #[On('deleteGame')]
     public function deleteGame($id)
     {
         try {
+            Game::with('attendanceLists')->find($id)->attendanceLists()->delete();
             Game::destroy($id);
-            $this->dispatch('teamDeleted', $id);
+            $this->dispatch('gameDeleted', $id);
             Toast::success($this, 'Partido eliminado exitosamente');
         } catch (\Exception $e) {
             debug($e);

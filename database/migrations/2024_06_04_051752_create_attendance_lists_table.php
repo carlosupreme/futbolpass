@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('attendance_lists', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('game_id')->constrained();
-            $table->foreignId('player_id')->constrained();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('game_id')->constrained('games');
+            $table->foreignUuid('player_id')->constrained('players');
             $table->boolean('is_present')->default(false);
             $table->timestamps();
         });

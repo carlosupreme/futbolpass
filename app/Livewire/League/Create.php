@@ -17,7 +17,7 @@ class Create extends Component
     #[Validate('required|string|max:255|unique:leagues,name')]
     public $name;
 
-    #[Validate('nullable|image')]
+    #[Validate('nullable|image|max:5120')]
     public $logo;
 
     public function store()

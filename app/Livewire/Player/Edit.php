@@ -18,11 +18,8 @@ class Edit extends Component
     #[Validate('required|integer|max_digits:3')]
     public $jersey_number;
 
-    #[Validate('required|integer|exists:teams,id')]
+    #[Validate('required|exists:teams,id')]
     public $team_id;
-
-    #[Validate('nullable|image')]
-    public $photo;
 
     public $teams = [];
 
@@ -36,13 +33,12 @@ class Edit extends Component
         $this->teams = $this->player->team->season->teams->pluck('name', 'id');
     }
 
-    public function update(): void
+    public function updatePlayer(): void
     {
 
         if ($this->name === $this->player->name &&
             $this->jersey_number === $this->player->jersey_number &&
-            $this->team_id === $this->player->team_id &&
-            !$this->photo) {
+            $this->team_id === $this->player->team_id) {
             Toast::info($this, 'No hay cambios que guardar');
             return;
         }
@@ -55,17 +51,12 @@ class Edit extends Component
             'team_id' => $this->team_id,
         ]);
 
-        if ($this->photo) {
-            $this->player->updatePhoto($this->photo);
-        }
-
         Toast::success($this, 'Jugador actualizado');
         $this->dispatch('playerUpdated');
     }
 
     public function selectTeam($id)
     {
-
         $this->team_id = $id;
     }
 

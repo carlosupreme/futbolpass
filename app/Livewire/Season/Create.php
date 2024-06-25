@@ -14,13 +14,13 @@ class Create extends Component
     #[Validate('required|string|max:255|unique:leagues,name')]
     public $name;
 
-    #[Validate('required|integer')]
+    #[Validate('required|exists:leagues,id')]
     public $league_id;
 
     #[Validate('required|date')]
     public $start_date;
 
-    #[Validate('required|date|after:start_date')]
+    #[Validate('required|date|after_or_equal:start_date')]
     public $end_date;
 
     public function mount($league_id)
@@ -32,12 +32,7 @@ class Create extends Component
     {
         $this->validate();
 
-        Season::create([
-            'name' => $this->name,
-            'league_id' => $this->league_id,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
-        ]);
+        Season::create($this->except('open'));
 
         $this->dispatch('seasonCreated');
         $this->resetExcept('league_id');

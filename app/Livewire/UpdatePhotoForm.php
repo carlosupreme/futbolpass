@@ -19,7 +19,7 @@ class UpdatePhotoForm extends Component
 
     public $open;
 
-    public function mount($model, $showButton = true, $size = '1024')
+    public function mount($model, $showButton = true, $size = '5120')
     {
         $this->open = false;
         $this->model = $model;

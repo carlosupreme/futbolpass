@@ -19,23 +19,21 @@ class Create extends Component
     #[Validate('required|string|max:255|unique:teams,name')]
     public $name;
 
-    #[Validate('nullable|image')]
+    #[Validate('nullable|image|max:5120')]
     public $logo;
 
+    #[Validate('required|exists:seasons,id')]
     public $season_id;
 
-    public function mount($season_id)
+    public function mount($season_id): void
     {
         $this->season_id = $season_id;
     }
 
-    public function store()
+    public function store(): void
     {
         $this->validate();
-        $team = Team::create([
-            'season_id' => $this->season_id,
-            'name' => $this->name,
-        ]);
+        $team = Team::create($this->except('open', 'logo'));
 
         if ($this->logo) $team->updatePhoto($this->logo);
 
