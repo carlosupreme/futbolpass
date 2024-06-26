@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignUuid('season_id')->constrained('seasons');
             $table->foreignUuid('home_team_id')->constrained('teams');
             $table->foreignUuid('away_team_id')->constrained('teams');
-            $table->timestamp("date");
+            $table->string("name");
             $table->integer("home_team_goals")->default(0);
             $table->integer("away_team_goals")->default(0);
-            $table->string("name");
+            $table->timestamp("date");
             $table->timestamps();
         });
     }
